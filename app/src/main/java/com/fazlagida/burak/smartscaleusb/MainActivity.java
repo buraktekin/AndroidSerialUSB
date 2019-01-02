@@ -4,9 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
@@ -19,12 +17,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.felhr.usbserial.UsbSerialDevice;
@@ -36,10 +34,12 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "LOG: " ;
     private static int row_index;
 
-    private String item = "";
+    private double previous_cumulative_scale = 0;
     private String buffer = "";
     private Context context = null;
-    String[] itemList;
+
+    private HashMap<String, Integer> items_scales_object;
+    protected String[] itemList;
 
     private UsbSerialInterface.UsbReadCallback mCallback = new UsbSerialInterface.UsbReadCallback() {
         @Override
@@ -116,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
                                 tableRow.setLayoutParams( param );
 
                                 // Add a TextView in the first column.
-                                TextView scale = ( TextView ) findViewById( R.id.textWeight );
                                 TextView item_name = new TextView( context );
                                 item_name.setText( "Product: " + input.getText() );
                                 item_name.setLayoutParams( param );
@@ -126,7 +125,10 @@ public class MainActivity extends AppCompatActivity {
 
                                 // Add a TextView in the second column.
                                 TextView item_scale = new TextView(context);
-                                item_scale.setText( "Scale: " + scale.getText().toString() + " KG" );
+                                TextView scale = ( TextView ) findViewById( R.id.textWeight );
+                                double scale_of_item = Float.parseFloat( scale.getText().toString() ) - previous_cumulative_scale;
+                                previous_cumulative_scale = Float.parseFloat( scale.getText().toString() );
+                                item_scale.setText( "Scale: " + scale_of_item + " KG" );
                                 item_scale.setLayoutParams( param );
                                 item_scale.setGravity( Gravity.RIGHT );
                                 item_scale.setTextSize( 20 );
