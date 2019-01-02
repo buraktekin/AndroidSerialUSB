@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">SmartScaleUSB</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="textWeight">0</string>
+    <string name="buttonSave">Save</string>
+    <string name="pick_item">Ürün Seç</string>
+    <string name="dialog_message">Products</string>
+    <string name="dialog_title">Items</string>
+</resources>
